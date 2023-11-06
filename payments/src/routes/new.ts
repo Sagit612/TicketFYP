@@ -4,6 +4,8 @@ import { requireAuth, validateRequest, BadRequestError, NotFoundError, NotAuthor
 import { Order } from '../models/order';
 import { stripe } from '../stripe';
 import { Payment } from '../models/payment';
+import { PaymentCreatedPublisher } from '../events/publishers/payment-created-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -27,17 +29,22 @@ router.post('/api/payments', requireAuth,[
         throw new BadRequestError("Order is expired, cannot pay for it");
     }
 
-   const charge = await stripe.charges.create({
+   const newCharge = await stripe.charges.create({
         currency: 'usd',
         amount: existingOrder.price * 100,
         source: token
     })
-    const payment = Payment.build({
+    const newPayment = Payment.build({
         orderId,
-        stripeId: charge.id
+        stripeId: newCharge.id
     })
-    await payment.save()
-    res.status(201).send({success: true});
+    await newPayment.save()
+    new PaymentCreatedPublisher(natsWrapper.client).publish({
+        id: newPayment.id,
+        orderId: newPayment.orderId,
+        stripeId: newPayment.stripeId
+    })
+    res.status(201).send({id: newPayment.id});
 }) 
 
 export {router as createChargeRouter};
