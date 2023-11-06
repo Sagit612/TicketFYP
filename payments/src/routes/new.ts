@@ -3,6 +3,7 @@ import { body } from 'express-validator';
 import { requireAuth, validateRequest, BadRequestError, NotFoundError, NotAuthorizedError, OrderStatus } from '@sagittickets/common';
 import { Order } from '../models/order';
 import { stripe } from '../stripe';
+import { Payment } from '../models/payment';
 
 const router = express.Router();
 
@@ -26,12 +27,17 @@ router.post('/api/payments', requireAuth,[
         throw new BadRequestError("Order is expired, cannot pay for it");
     }
 
-    await stripe.charges.create({
+   const charge = await stripe.charges.create({
         currency: 'usd',
         amount: existingOrder.price * 100,
         source: token
     })
-    res.send({success: true});
+    const payment = Payment.build({
+        orderId,
+        stripeId: charge.id
+    })
+    await payment.save()
+    res.status(201).send({success: true});
 }) 
 
 export {router as createChargeRouter};
