@@ -19,3 +19,5 @@ class OrderCancelledListener extends Listener<OrderCancelledEvent> {
         msg.ack();
     }
 }
+
+export { OrderCancelledListener }
