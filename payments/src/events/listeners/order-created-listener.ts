@@ -7,7 +7,7 @@ class OrderCreatedListener extends Listener<OrderCreatedEvent> {
     subject: Subjects.OrderCreated = Subjects.OrderCreated;
     queueGroupName: string = queueGroupName;
     async onMessage(data: OrderCreatedEvent['data'], msg: Message){
-        const order = Order.build(
+        const newOrder = Order.build(
             {
                 id: data.id,
                 status: data.status,
@@ -16,7 +16,7 @@ class OrderCreatedListener extends Listener<OrderCreatedEvent> {
                 version: data.version
             }
         )
-        await order.save();
+        await newOrder.save();
         msg.ack();
     }
 }
