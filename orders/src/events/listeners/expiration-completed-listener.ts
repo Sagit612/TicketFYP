@@ -13,6 +13,9 @@ class ExpirationCompletedListener extends Listener<ExpirationCompletedEvent> {
         if (!existingOrder) {
             throw new Error('Not found order');
         }
+        if (existingOrder.status === OrderStatus.Complete) {
+            return msg.ack();
+        }
         existingOrder.set({
             status: OrderStatus.Cancelled
         });
