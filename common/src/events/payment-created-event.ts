@@ -1,10 +1,10 @@
-import { Subjects } from './subjects';
-
-export interface PaymentCreatedEvent {
-  subject: Subjects.PaymentCreated;
-  data: {
-    id: string;
-    orderId: string;
-    stripeId: string;
-  };
+import { Subjects } from "./subjects";
+interface PaymentCreatedEvent {
+    subject: Subjects.PaymentCreated;
+    data: {
+        id: string;
+        orderId: string;
+        stripeId: string;
+    };
 }
+export { PaymentCreatedEvent };

@@ -14,5 +14,5 @@ var OrderStatus;
     OrderStatus["AwaitingPayment"] = "awaiting:payment";
     // The order has reserved the ticket and the user has
     // provided payment successfully
-    OrderStatus["Complete"] = "complete";
+    OrderStatus["Completed"] = "completed";
 })(OrderStatus || (exports.OrderStatus = OrderStatus = {}));
