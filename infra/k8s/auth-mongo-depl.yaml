@@ -12,6 +12,7 @@ spec:
       labels:
         app: auth-mongo
     spec:
+      hostname: auth-mongo-srv
       containers:
         - name: auth-mongo
           image: mongo

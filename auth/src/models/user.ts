@@ -1,28 +1,49 @@
-import mongoose from "mongoose";
+import mongoose, { FilterQuery, QueryOptions, UpdateQuery } from "mongoose";
 import { Password } from "../services/password";
 
 interface UserAttrs{
+    name: string;
     email: string;
-    password: string;
+    password?: string;
+    googleId?: string;
+    verified_email?: boolean;
+    picture?: string;
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
     build(attrs: UserAttrs): any;
+    findAndCreate(query: FilterQuery<UserAttrs>, update: UpdateQuery<UserAttrs>, options: QueryOptions): any;
 }
 
 interface UserDoc extends mongoose.Document{
+    name: string;
     email: string;
-    password: string;
+    password?: string;
+    googleId?: string;
+    verified_email?: boolean;
+    picture?: string;
 }
 
 const userSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: true
     },
     password: {
         type: String,
-        required: true
+    },
+    googleId: {
+        type: String,
+    },
+    verified_email: {
+        type: Boolean
+    },
+    picture: {
+        type: String,
     }
 }, {
     toJSON: {
@@ -37,7 +58,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', async function(done) {
     if (this.isModified('password')){
-        const hashed = await Password.toHash(this.get('password'));
+        const hashed = await Password.toHash(this.get('password') as string);
         this.set('password', hashed);
     }
     done();
@@ -45,6 +66,9 @@ userSchema.pre('save', async function(done) {
 
 userSchema.statics.build = (attrs: UserAttrs) => {
     return new User(attrs);
+}
+userSchema.statics.findAndCreate = async (query: FilterQuery<UserAttrs>, update: UpdateQuery<UserAttrs>, options: QueryOptions) => {
+    return await User.findOneAndUpdate(query, update, options);
 }
 
 const User = mongoose.model<UserDoc, UserModel>('User', userSchema);

@@ -5,10 +5,11 @@ import cookieSession from 'cookie-session';
 import cors from 'cors';
 
 import { currentUserRouter } from './routes/current-user';
-import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
+import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
 import { errorHandler, NotFoundError } from '@sagittickets/common';
+import { googleSigninRouter } from './routes/googleSignin';
 
 
 const app = express();
@@ -24,6 +25,7 @@ app.use(
 
 app.use(currentUserRouter);
 app.use(signinRouter);
+app.use(googleSigninRouter);
 app.use(signoutRouter);
 app.use(signupRouter);
 

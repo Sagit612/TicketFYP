@@ -1,12 +1,22 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import buildClient from '../api/build-client';
 import Header from '../components/header';
+import { useEffect } from "react";
 
 const AppComponent = ({ Component, pageProps, currentUser }) => {
-    return <div>
-        <Header currentUser={currentUser}/>
-        <div className='container'><Component currentUser={currentUser} {...pageProps}/></div>
-        </div>;
+    useEffect(() => {
+        import("bootstrap/dist/js/bootstrap");
+    }, []);
+    return (
+        <div>
+            <Header currentUser={currentUser}/>
+            <div className='container'>
+                <Component currentUser={currentUser} {...pageProps}/>
+            </div>
+        </div>
+
+    )
+    
 }
 
 AppComponent.getInitialProps = async (appContext) => {

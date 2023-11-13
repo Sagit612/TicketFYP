@@ -18,12 +18,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sagittickets/common": "^1.0.5",
+    "@sagittickets/common": "^1.0.22",
     "@types/cookie-session": "^2.0.45",
     "@types/cors": "^2.8.14",
     "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/mongoose": "^5.11.97",
+    "@types/qs": "^6.9.10",
+    "axios": "^1.6.1",
     "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
@@ -31,6 +33,7 @@
     "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.0",
+    "qs": "^6.11.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.1.6"
   },

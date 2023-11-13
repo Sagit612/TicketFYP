@@ -13,16 +13,12 @@ import { natsWrapper } from '../nats-wrapper';
 import { Ticket } from '../models/ticket';
 
 const router = express.Router();
-
+const createTitleChain = () => body('title').not().isEmpty().withMessage('Title is required');
+const createPriceChain = () => body('price').isFloat({ gt: 0 }).withMessage('Price must be greater than 0');
 router.put('/api/tickets/:id', requireAuth, 
 [
-    body('title')
-        .not()
-        .isEmpty()
-        .withMessage('Title is required'),
-    body('price')
-        .isFloat({gt: 0})
-        .withMessage('Price must be provided and must be greater than 0')
+    createTitleChain(),
+    createPriceChain()
 ],
 validateRequest, async (req: Request, res: Response) => {
     const ticket = await Ticket.findById(req.params.id);

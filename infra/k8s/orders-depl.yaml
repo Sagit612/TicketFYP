@@ -12,6 +12,15 @@ spec:
       labels:
         app: orders
     spec:
+      dnsPolicy: Default
+      dnsConfig:
+        nameservers:
+          - 10.96.0.10
+          - 8.8.8.8
+        searches:
+          - default.svc.cluster.local
+          - svc.cluster.local
+          - cluster.local
       containers:
         - name: orders
           image: sagit612/orders

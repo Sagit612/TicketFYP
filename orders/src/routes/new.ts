@@ -8,15 +8,12 @@ import { OrderCreatedPublisher } from '../events/publishers/order-created-publis
 import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
+const createTicketIdChain = () => body('ticketId').not().isEmpty().custom((input: string) => mongoose.Types.ObjectId.isValid(input)).withMessage('TicketId must be provided')
 
 const EXPIRATION_WINDOW_SECONDS = 1 * 60;
 
 router.post('/api/orders', requireAuth, [
-    body('ticketId')
-        .not()
-        .isEmpty()
-        .custom((input: string) => mongoose.Types.ObjectId.isValid(input))
-        .withMessage('TicketId must be provided')
+    createTicketIdChain()
 ], validateRequest, async (req: Request, res: Response) => {
     // Find the ticket the user is trying to order in the database
     const { ticketId } = req.body

@@ -12,9 +12,26 @@ spec:
       labels:
         app: client
     spec:
+      dnsPolicy: Default
+      dnsConfig:
+        nameservers:
+          - 8.8.8.8
+          - 10.96.0.10
+        searches:
+          - default.svc.cluster.local
+          - svc.cluster.local
+          - cluster.local
       containers:
         - name: client
           image: sagit612/client
+          env:
+            - name: GOOGLE_CLIENT_ID
+              value: '1064906767052-lemu93dod3focc8usrjlg1069nlc737p.apps.googleusercontent.com'
+            - name: CLOUDINARY_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: cloudinary-secret
+                  key: CLOUDINARY_KEY
 ---
 apiVersion: v1
 kind: Service

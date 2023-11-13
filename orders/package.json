@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sagittickets/common": "^1.0.15",
+    "@sagittickets/common": "^1.0.33",
     "@types/cookie-session": "^2.0.45",
     "@types/cors": "^2.8.14",
     "@types/express": "^4.17.17",

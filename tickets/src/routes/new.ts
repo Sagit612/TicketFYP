@@ -5,16 +5,14 @@ import { Ticket } from '../models/ticket';
 import { TicketCreatedPublisher } from '../events/publishers/ticket-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
 
+
+const createTitleChain = () => body('title').not().isEmpty().withMessage('Title is required');
+const createPriceChain = () => body('price').isFloat({ gt: 0 }).withMessage('Price must be greater than 0');
 const router = express.Router();
 
 router.post('/api/tickets', requireAuth, [
-    body('title')
-        .not()
-        .isEmpty()
-        .withMessage('Title is required'),
-    body('price')
-        .isFloat({ gt: 0 })
-        .withMessage('Price must be greater than 0')
+createTitleChain(),
+    createPriceChain()
 ], validateRequest, async (req: Request, res: Response) => {
     const { title, price } = req.body;
 

@@ -7,15 +7,15 @@ import { Payment } from '../models/payment';
 import { PaymentCreatedPublisher } from '../events/publishers/payment-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
 
+
+const createTokenChain = () => body('token').not().isEmpty();
+const createOrderIdChain = () => body('orderId').not().isEmpty();
+
 const router = express.Router();
 
 router.post('/api/payments', requireAuth,[
-    body('token')
-        .not()
-        .isEmpty(),
-    body('orderId')
-        .not()
-        .isEmpty()
+createTokenChain(),
+createOrderIdChain()
 ], validateRequest, async (req: Request, res: Response) => {
     const { token, orderId } = req.body;
     const existingOrder = await Order.findById(orderId);

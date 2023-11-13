@@ -12,6 +12,15 @@ spec:
       labels:
         app: auth
     spec:
+      dnsPolicy: Default
+      dnsConfig:
+        nameservers:
+          - 10.96.0.10
+          - 8.8.8.8
+        searches:
+          - default.svc.cluster.local
+          - svc.cluster.local
+          - cluster.local
       containers:
         - name: auth
           image: sagit612/auth
@@ -23,8 +32,13 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
-            # - name: GOOGLE_CLIENT_ID
-            #   value: 
+            - name: GOOGLE_CLIENT_ID
+              value: '1064906767052-lemu93dod3focc8usrjlg1069nlc737p.apps.googleusercontent.com'
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: google-secret
+                  key: GOOGLE_KEY
 ---
 apiVersion: v1
 kind: Service
