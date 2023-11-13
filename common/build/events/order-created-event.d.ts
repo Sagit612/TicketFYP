@@ -11,6 +11,7 @@ export interface OrderCreatedEvent {
         ticket: {
             id: string;
             price: number;
+            photo?: Object;
         };
     };
 }
