@@ -1,5 +1,5 @@
-import { Subjects } from './subjects';
-export interface PaymentCreatedEvent {
+import { Subjects } from "./subjects";
+interface PaymentCreatedEvent {
     subject: Subjects.PaymentCreated;
     data: {
         id: string;
@@ -7,3 +7,4 @@ export interface PaymentCreatedEvent {
         stripeId: string;
     };
 }
+export { PaymentCreatedEvent };

@@ -1,5 +1,5 @@
-import { Subjects } from './subjects';
-export interface OrderCancelledEvent {
+import { Subjects } from "./subjects";
+interface OrderCancelledEvent {
     subject: Subjects.OrderCancelled;
     data: {
         id: string;
@@ -9,3 +9,4 @@ export interface OrderCancelledEvent {
         };
     };
 }
+export { OrderCancelledEvent };

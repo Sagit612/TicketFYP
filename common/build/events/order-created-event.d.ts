@@ -1,6 +1,6 @@
-import { Subjects } from './subjects';
-import { OrderStatus } from './types/order-status';
-export interface OrderCreatedEvent {
+import { Subjects } from "./subjects";
+import { OrderStatus } from "./types/order-status";
+interface OrderCreatedEvent {
     subject: Subjects.OrderCreated;
     data: {
         id: string;
@@ -11,7 +11,7 @@ export interface OrderCreatedEvent {
         ticket: {
             id: string;
             price: number;
-            photo?: Object;
         };
     };
 }
+export { OrderCreatedEvent };
