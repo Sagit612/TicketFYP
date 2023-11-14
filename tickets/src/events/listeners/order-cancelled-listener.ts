@@ -21,6 +21,8 @@ class OrderCancelledListener extends Listener<OrderCancelledEvent> {
             id: existingTicket.id,
             price: existingTicket.price,
             title: existingTicket.title,
+            photo_id: existingTicket.photo_id,
+            photo_url: existingTicket.photo_url,
             userId: existingTicket.userId,
             orderId: existingTicket.orderId,
             version: existingTicket.version

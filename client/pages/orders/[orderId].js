@@ -26,7 +26,9 @@ const OrderShow = ({order, currentUser}) => {
     }, [order]);
 
     if (timeLeft < 0) {
-        return <div>Order expired</div>
+        return <div className="d-flex justify-content-center align-items-center">
+                <h1>Order expired</h1>
+            </div>
     }
     const msLeft = new Date(order.expiresAt) - new Date();
     return <div>{timeLeft} seconds until order expires

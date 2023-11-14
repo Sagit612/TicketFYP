@@ -5,7 +5,7 @@ const LandingPage = ({ currentUser, tickets }) => {
         return (
             <tr key={ticket.id}>
                 <td>
-                    <img src="https://www.shutterstock.com/shutterstock/photos/2021147534/display_1500/stock-vector-concert-ticket-template-concert-party-or-festival-ticket-design-template-with-crowd-of-people-in-2021147534.jpg" class="img-thumbnail" alt="..."/>
+                    <img src={ticket.photo_url} class="img-thumbnail" alt="..."/>
                 </td>
                 <td>{ticket.title}</td>
                 <td>{ticket.price}$</td>
@@ -14,7 +14,15 @@ const LandingPage = ({ currentUser, tickets }) => {
                     <Link href="/tickets/[ticketId]" as={`/tickets/${ticket.id}`} className="nav-link">
                         View
                     </Link>
-                    </button>        
+                    </button> 
+                    {currentUser.id !== ticket.userId ? null : 
+                        <button className="btn btn-warning">
+                        <Link href='/tickets/edit/[ticketId]' as={`/tickets/edit/${ticket.id}`} className="nav-link">
+                            Edit
+                        </Link>
+                        </button>  
+                    }
+
                 </td>
 
             </tr>

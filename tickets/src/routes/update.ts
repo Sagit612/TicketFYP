@@ -11,6 +11,7 @@ import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publ
 import { natsWrapper } from '../nats-wrapper';
 
 import { Ticket } from '../models/ticket';
+import { uploadToCloudinary } from '../services/cloudinary.service';
 
 const router = express.Router();
 const createTitleChain = () => body('title').not().isEmpty().withMessage('Title is required');
@@ -34,6 +35,26 @@ validateRequest, async (req: Request, res: Response) => {
     if(ticket.userId !== req.currentUser!.id){
         throw new NotAuthorizedError();
     }
+    if(req.body.photo) {
+        const {public_id, secure_url} = await uploadToCloudinary(req.body.photo);
+        ticket.set({
+            title: req.body.title,
+            price: req.body.price,
+            photo_id: public_id,
+            photo_url: secure_url
+        })
+        await ticket.save();
+        new TicketUpdatedPublisher(natsWrapper.client).publish({
+            id: ticket.id,
+            version: ticket.version,
+            title: ticket.title,
+            price: ticket.price,
+            photo_id: ticket.photo_id,
+            photo_url: ticket.photo_url,
+            userId: ticket.userId
+        })
+        res.send(ticket);
+    }
 
     ticket.set({
         title: req.body.title,
@@ -46,6 +67,8 @@ validateRequest, async (req: Request, res: Response) => {
         version: ticket.version,
         title: ticket.title,
         price: ticket.price,
+        photo_id: ticket.photo_id,
+        photo_url: ticket.photo_url,
         userId: ticket.userId
     })
     res.send(ticket);

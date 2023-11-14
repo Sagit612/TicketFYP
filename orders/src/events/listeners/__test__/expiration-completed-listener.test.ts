@@ -14,7 +14,9 @@ const setup = async () => {
     const newTicket = Ticket.build({
         id: new mongoose.Types.ObjectId().toHexString(),
         title: "new ticket",
-        price: 20
+        price: 20,
+        photo_id:  "o5ekhzshydxvxixqlb3z",
+        photo_url: "https://res.cloudinary.com/dvxfixf5q/image/upload/v1699898180/o5ekhzshydxvxixqlb3z.jpg",
     })
     await newTicket.save();
 

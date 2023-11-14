@@ -9,6 +9,8 @@ it('fetches the order', async () => {
     id: new mongoose.Types.ObjectId().toHexString(),
     title: 'concert',
     price: 20,
+    photo_id:  "o5ekhzshydxvxixqlb3z",
+    photo_url: "https://res.cloudinary.com/dvxfixf5q/image/upload/v1699898180/o5ekhzshydxvxixqlb3z.jpg",
   });
   await ticket.save();
 
@@ -35,6 +37,9 @@ it('returns an error if one user tries to fetch another users order', async () =
     id: new mongoose.Types.ObjectId().toHexString(),
     title: 'concert',
     price: 20,
+    photo_id:  "o5ekhzshydxvxixqlb3z",
+    photo_url: "https://res.cloudinary.com/dvxfixf5q/image/upload/v1699898180/o5ekhzshydxvxixqlb3z.jpg",
+
   });
   await ticket.save();
 

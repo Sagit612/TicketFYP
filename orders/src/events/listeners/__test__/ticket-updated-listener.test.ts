@@ -12,7 +12,9 @@ const setup = async () => {
     const ticket = Ticket.build({
         id: new mongoose.Types.ObjectId().toHexString(),
         title: "concert",
-        price: 20
+        price: 20,
+        photo_id:  "o5ekhzshydxvxixqlb3z",
+        photo_url: "https://res.cloudinary.com/dvxfixf5q/image/upload/v1699898180/o5ekhzshydxvxixqlb3z.jpg",
     });
     await ticket.save();
     // create a fake data object
@@ -21,6 +23,8 @@ const setup = async () => {
         id: ticket.id,
         title: "new concert",
         price: 999,
+        photo_id:  "o5ekhzshydxvxixqlb3z",
+        photo_url: "https://res.cloudinary.com/dvxfixf5q/image/upload/v1699898180/o5ekhzshydxvxixqlb3z.jpg",
         userId: 'sdklfg'
     }
     // Create a fake msg object

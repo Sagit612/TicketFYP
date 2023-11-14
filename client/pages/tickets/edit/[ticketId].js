@@ -1,14 +1,14 @@
 import {useState} from 'react';
-import useRequest from '../../hooks/use-request';
-import Router  from 'next/router';
+import useRequest from '../../../hooks/use-request';
+import Router, { useRouter }  from 'next/router';
 
-const NewTicket = () => {
+const EditTicket = ({ticket}) => {
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
     const {doRequest, errors} = useRequest({
-        url: 'https://ticketing.dev/api/tickets',
-        method: 'post',
+        url: `https://ticketing.dev/api/tickets/${ticket.id}`,
+        method: 'put',
         body: {
             title: title,
             price: price,
@@ -51,7 +51,7 @@ const NewTicket = () => {
     return (
         <div>
             <br/>
-            <h1>Upload new ticket</h1>
+            <h1>Edit Ticket</h1>
             <form onSubmit={onSubmit}>
 
             {selectedImage && (
@@ -78,11 +78,11 @@ const NewTicket = () => {
             />
                 <div className="form-group">
                     <label>Title</label>
-                    <input value={title} onChange={e => setTitle(e.target.value)} className="form-control"/>
+                    <input value={title} onChange={e => setTitle(e.target.value)} placeholder={ticket.title} className="form-control"/>
                 </div>
                 <div className="form-group">
                     <label>Price</label>
-                    <input value={price} onBlur={onBlur} onChange={e => setPrice(e.target.value)}  className="form-control"/>
+                    <input value={price} onBlur={onBlur} onChange={e => setPrice(e.target.value)} placeholder={ticket.price} className="form-control"/>
                 </div>
                 {errors}
                 <button className="btn btn-primary">Submit</button>
@@ -91,4 +91,9 @@ const NewTicket = () => {
     )
 }
 
-export default NewTicket;
+EditTicket.getInitialProps = async (context, client) => {
+    const {ticketId} = context.query;
+    const {data} = await client.get(`/api/tickets/${ticketId}`);
+    return { ticket: data}
+}
+export default EditTicket;

@@ -2,6 +2,7 @@ import useRequest from "../../hooks/use-request";
 import Router  from 'next/router';
 
 const TicketShow = ({currentUser, ticket}) => {
+    console.log(ticket);
     const {doRequest, errors} = useRequest({
         url: '/api/orders',
         method: 'post',
@@ -10,9 +11,9 @@ const TicketShow = ({currentUser, ticket}) => {
         },
         onSuccess: (order) => Router.push('/orders/[orderId]', `/orders/${order.id}`)
     });
-    return <div>
+    return <div className="d-flex justify-content-around">
         <h1>{ticket.title}</h1>
-        <h4>Price: {ticket.price}</h4>
+        <h1>Price: {ticket.price}</h1>
         {errors}
         {(!currentUser) || (currentUser.id !== ticket.userId) ? <button className="btn btn-primary" onClick={() => doRequest()}>Purchase</button> : null}
         {/* <button className="btn btn-primary" onClick={() => doRequest()}>Purchase</button> */}

@@ -14,6 +14,8 @@ const setup = async () => {
         id: new mongoose.Types.ObjectId().toHexString(),
         title: "concert",
         price: 10,
+        photo_id:  "o5ekhzshydxvxixqlb3z",
+        photo_url: "https://res.cloudinary.com/dvxfixf5q/image/upload/v1699898180/o5ekhzshydxvxixqlb3z.jpg",
         userId: new mongoose.Types.ObjectId().toHexString()
     }
     // create a face msg object

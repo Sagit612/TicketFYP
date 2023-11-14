@@ -10,6 +10,8 @@ const setup = async () => {
     const ticket  = Ticket.build({
         title: 'newTicket',
         price: 99,
+        photo_id: "655263447ee155a01028104d",
+        photo_url: "https://res.cloudinary.com/dvxfixf5q/image/upload/v1699898180/o5ekhzshydxvxixqlb3z.jpg",
         userId: 'asdf'
     });
     await ticket.save();

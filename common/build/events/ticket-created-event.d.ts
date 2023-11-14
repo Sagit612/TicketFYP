@@ -6,6 +6,8 @@ interface TicketCreatedEvent {
         version: number;
         title: string;
         price: number;
+        photo_id: string;
+        photo_url: string;
         userId: string;
     };
 }
