@@ -1,5 +1,5 @@
 import mongoose, { FilterQuery, QueryOptions, UpdateQuery } from "mongoose";
-import { Password } from "../services/password";
+import { Password } from "../services/password.service";
 
 interface UserAttrs{
     name: string;
@@ -11,7 +11,7 @@ interface UserAttrs{
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
-    build(attrs: UserAttrs): any;
+    createUser(attrs: UserAttrs): any;
     findAndCreate(query: FilterQuery<UserAttrs>, update: UpdateQuery<UserAttrs>, options: QueryOptions): any;
 }
 
@@ -64,14 +64,14 @@ userSchema.pre('save', async function(done) {
     done();
 });
 
-userSchema.statics.build = (attrs: UserAttrs) => {
-    return new User(attrs);
-}
 userSchema.statics.findAndCreate = async (query: FilterQuery<UserAttrs>, update: UpdateQuery<UserAttrs>, options: QueryOptions) => {
     return await User.findOneAndUpdate(query, update, options);
 }
 
-const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
+userSchema.statics.createUser = (attrs: UserAttrs) => {
+    return new User(attrs);
+}
 
+const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
 
 export { User }

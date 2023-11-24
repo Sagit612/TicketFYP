@@ -4,7 +4,7 @@ import 'express-async-errors';
 import cookieSession from 'cookie-session';
 import cors from 'cors';
 
-import { currentUserRouter } from './routes/current-user';
+import { currentUserRouter } from './routes/currentUser';
 import { signoutRouter } from './routes/signout';
 import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';

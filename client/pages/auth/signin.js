@@ -15,7 +15,6 @@ export default () => {
             body: {
                 email: email, 
                 password: password,
-                name: name
             },
             onSuccess: () => Router.push('/')
         }

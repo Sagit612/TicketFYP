@@ -1,5 +1,5 @@
 import { CustomError } from './custom-error';
-export declare class BadRequestError extends CustomError {
+declare class BadRequestError extends CustomError {
     message: string;
     statusCode: number;
     constructor(message: string);
@@ -7,3 +7,4 @@ export declare class BadRequestError extends CustomError {
         message: string;
     }[];
 }
+export { BadRequestError };
