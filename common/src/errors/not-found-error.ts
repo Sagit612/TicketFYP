@@ -1,6 +1,6 @@
 import { CustomError } from './custom-error';
 
-export class NotFoundError extends CustomError {
+class NotFoundError extends CustomError {
   statusCode = 404;
 
   constructor() {
@@ -13,3 +13,5 @@ export class NotFoundError extends CustomError {
     return [{ message: 'Not Found' }];
   }
 }
+
+export { NotFoundError }
