@@ -1,14 +1,9 @@
 import { requireAuth } from '@sagittickets/common';
-import express, { Request, Response } from 'express';
-import { Order } from '../models/order';
+import express from 'express';
+import { index } from '../controllers/index/index.controller';
 
 const router = express.Router();
 
-router.get('/api/orders', requireAuth,  async (req: Request, res: Response) => {
-    const availableOrder = await Order.find({
-        userId: req.currentUser!.id
-    }).populate('ticket');
-    res.send(availableOrder);
-});
+router.get('/api/orders', requireAuth, index);
 
 export {router as indexOrderRouter};

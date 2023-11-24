@@ -1,15 +1,10 @@
 import express, { Request, Response } from 'express';
 import { NotFoundError } from '@sagittickets/common';
 import { Ticket } from '../models/ticket';
+import { show } from '../controllers/show/show.controller';
 
 const router = express.Router();
 
-router.get('/api/tickets/:id', async (req: Request, res: Response) => {
-    const ticket = await Ticket.findOne({_id: req.params.id});
-    if (!ticket) {
-        throw new NotFoundError();
-    }
-    res.status(200).send(ticket);
-});
+router.get('/api/tickets/:id', show);
 
 export { router as showTicketRouter };

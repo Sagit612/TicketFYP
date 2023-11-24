@@ -7,7 +7,7 @@ import { Ticket } from "../../../models/ticket";
 
 const setup = async () => {
     const listener = new OrderCreatedListener(natsWrapper.client);
-    const ticket  = Ticket.build({
+    const ticket  = Ticket.createTicket({
         title: 'newTicket',
         price: 99,
         photo_id: "655263447ee155a01028104d",

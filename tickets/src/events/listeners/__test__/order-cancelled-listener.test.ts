@@ -9,7 +9,7 @@ const setup = async () => {
     const listener = new OrderCancelledListener(natsWrapper.client);
 
     const orderId = new mongoose.Types.ObjectId().toHexString();
-    const ticket = Ticket.build({
+    const ticket = Ticket.createTicket({
         title: 'concert',
         price: 20,
         photo_id: "655263447ee155a01028104d",

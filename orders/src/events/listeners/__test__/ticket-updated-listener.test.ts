@@ -9,7 +9,7 @@ const setup = async () => {
     // Create a listener
     const listener = new TicketUpdatedListener(natsWrapper.client);
     // Create and save a ticket
-    const ticket = Ticket.build({
+    const ticket = Ticket.createTicket({
         id: new mongoose.Types.ObjectId().toHexString(),
         title: "concert",
         price: 20,

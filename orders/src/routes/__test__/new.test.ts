@@ -17,7 +17,7 @@ it('returns an error if the ticket does not exist', async () => {
 });
 
 it('returns an error if the ticket is already reserved', async () => {
-    const ticket = Ticket.build({
+    const ticket = Ticket.createTicket({
         id: new mongoose.Types.ObjectId().toHexString(),
         title: 'concert',
         price: 20,
@@ -25,7 +25,7 @@ it('returns an error if the ticket is already reserved', async () => {
         photo_url: "https://res.cloudinary.com/dvxfixf5q/image/upload/v1699898180/o5ekhzshydxvxixqlb3z.jpg",
     });
     await ticket.save();
-    const order = Order.build({
+    const order = Order.createOrder({
         ticket,
         userId: 'asdfgasd',
         status: OrderStatus.Created,
@@ -42,7 +42,7 @@ it('returns an error if the ticket is already reserved', async () => {
 });
 
 it('reserves a ticket', async () => {
-    const ticket = Ticket.build({
+    const ticket = Ticket.createTicket({
         id: new mongoose.Types.ObjectId().toHexString(),
         title: 'concert',
         price: 20,
@@ -61,7 +61,7 @@ it('reserves a ticket', async () => {
 });
 
 it('emits an order created event',async () => {
-    const ticket = Ticket.build({
+    const ticket = Ticket.createTicket({
         id: new mongoose.Types.ObjectId().toHexString(),
         title: 'concert',
         price: 20,

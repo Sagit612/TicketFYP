@@ -21,7 +21,7 @@ export interface TicketDoc extends mongoose.Document {
 }
 
 interface TicketModel extends mongoose.Model<TicketDoc> {
-    build(attrs: TicketAttrs): TicketDoc;
+    createTicket(attrs: TicketAttrs): TicketDoc;
     findByEvent(event: { id: string, version: number}): Promise<TicketDoc | null>;
 }
 
@@ -53,7 +53,7 @@ const ticketSchema = new mongoose.Schema({
 ticketSchema.set('versionKey', 'version');
 ticketSchema.plugin(updateIfCurrentPlugin);
 
-ticketSchema.statics.build = (attrs: TicketAttrs) => {
+ticketSchema.statics.createTicket = (attrs: TicketAttrs) => {
     return new Ticket({
         _id: attrs.id,
         title: attrs.title,

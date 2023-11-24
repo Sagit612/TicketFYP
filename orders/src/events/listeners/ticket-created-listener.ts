@@ -8,7 +8,7 @@ export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
     queueGroupName = queueGroupName;
     async onMessage(data: TicketCreatedEvent['data'], msg: Message) {
         const { id, title, price, photo_id, photo_url } = data;
-        const ticket = Ticket.build({
+        const ticket = Ticket.createTicket({
             id,
             title,
             price,

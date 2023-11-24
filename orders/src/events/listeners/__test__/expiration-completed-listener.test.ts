@@ -11,7 +11,7 @@ const setup = async () => {
     // create an instance of the listener
     const listener = new ExpirationCompletedListener(natsWrapper.client);
 
-    const newTicket = Ticket.build({
+    const newTicket = Ticket.createTicket({
         id: new mongoose.Types.ObjectId().toHexString(),
         title: "new ticket",
         price: 20,
@@ -20,7 +20,7 @@ const setup = async () => {
     })
     await newTicket.save();
 
-    const newOrder = Order.build({
+    const newOrder = Order.createOrder({
         userId: 'anyid',
         status: OrderStatus.Created,
         expiresAt: new Date(),
