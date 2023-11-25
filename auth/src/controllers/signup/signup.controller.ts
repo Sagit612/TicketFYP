@@ -1,18 +1,18 @@
 import express, { Request, Response } from 'express';
-import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
-import { validateRequest, BadRequestError } from '@sagittickets/common';
-import { User } from '../../models/user.model';
+import { BadRequestError } from '@sagittickets/common';
+import { UserModel } from '../../models/user.model';
 
 export const signup = async (req: Request, res: Response) => {
-    const { name, email, password,  } = req.body;
+    const { name, email, password } = req.body;
 
-    const existingUser = await User.findOne({ email });
+    // const existingUser = await User.findOne({ email });
+    const existingUser = await UserModel.findOne({email});
     if(existingUser) {
         throw new BadRequestError('Email is already in use');
     }
 
-    const newUser = User.createUser({ name, email, password});
+    const newUser = UserModel.createUser({ name, email, password });
     await newUser.save();
 
     const newUserJwt = jwt.sign({

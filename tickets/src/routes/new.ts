@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { requireAuth, validateRequest } from '@sagittickets/common';
-import { Ticket } from '../models/ticket';
+import { Ticket } from '../models/ticket.model';
 import { TicketCreatedPublisher } from '../events/publishers/ticket-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
 import { uploadToCloudinary } from '../services/cloudinary.service';

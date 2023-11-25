@@ -1,5 +1,6 @@
-import { Ticket } from '../../models/ticket';
+import { Ticket } from '../../models/ticket.model';
 import express, {Request, Response} from 'express';
+
 export const index = async (req: Request, res: Response) => {
     const tickets = await Ticket.find({
         orderId: undefined

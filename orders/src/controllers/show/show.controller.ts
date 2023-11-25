@@ -1,6 +1,6 @@
 import { NotAuthorizedError, NotFoundError, requireAuth } from '@sagittickets/common';
 import express, { Request, Response } from 'express';
-import { Order } from '../../models/order';
+import { Order } from '../../models/order.model';
 
 export const show = async (req: Request, res: Response) => {
     const existingOrder = await Order.findById(req.params.orderId).populate('ticket');

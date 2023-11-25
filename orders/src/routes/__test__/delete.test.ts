@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { app } from '../../app';
-import { Ticket } from '../../models/ticket';
-import { Order, OrderStatus } from '../../models/order';
+import { Ticket } from '../../models/ticket.model';
+import { Order, OrderStatus } from '../../models/order.model';
 import { natsWrapper } from '../../nats-wrapper';
 import mongoose from 'mongoose';
 

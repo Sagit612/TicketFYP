@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { TicketDoc } from "./ticket";
+import { TicketDoc } from "./ticket.model";
 import { OrderStatus } from "@sagittickets/common";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 // import { updateIfCurrentPlugin } from "mongoose-update-if-current";
@@ -10,7 +10,6 @@ interface OrderAttrs {
     status: OrderStatus;
     expiresAt: Date;
     ticket: TicketDoc;
-    
 }
 
 interface OrderDoc extends mongoose.Document {

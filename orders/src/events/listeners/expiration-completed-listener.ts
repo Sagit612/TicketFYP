@@ -1,7 +1,7 @@
 import { ExpirationCompletedEvent, Listener, Subjects, OrderStatus } from "@sagittickets/common";
 import { queueGroupName } from "./queue-group-name";
 import { Message } from "node-nats-streaming";
-import { Order } from "../../models/order";
+import { Order } from "../../models/order.model";
 import { OrderCancelledPublisher } from "../publishers/order-cancelled-publisher";
 import { natsWrapper } from "../../nats-wrapper";
 

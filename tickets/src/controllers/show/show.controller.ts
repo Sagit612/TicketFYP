@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { NotFoundError } from '@sagittickets/common';
-import { Ticket } from '../../models/ticket';
+import { Ticket } from '../../models/ticket.model';
 
 export const show = async (req: Request, res: Response) => {
     const ticket = await Ticket.findOne({_id: req.params.id});

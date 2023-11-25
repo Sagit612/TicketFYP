@@ -4,7 +4,6 @@ import { googleSignin } from '../controllers/googleSignin/googleSignin.controlle
 
 const router = express.Router();
 
-router.get('/api/users/oauth/google', googleSignin
-);
+router.get('/api/users/oauth/google', googleSignin);
 
 export { router as googleSigninRouter };

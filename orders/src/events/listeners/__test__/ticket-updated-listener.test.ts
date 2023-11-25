@@ -1,7 +1,7 @@
 import { TicketUpdatedListener } from "../ticket-updated-listener";
 import { TicketUpdatedEvent } from "@sagittickets/common";
 import { natsWrapper } from "../../../nats-wrapper";
-import { Ticket } from "../../../models/ticket";
+import { Ticket } from "../../../models/ticket.model";
 import { Message } from "node-nats-streaming";
 import mongoose from "mongoose";
 

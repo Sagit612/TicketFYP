@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { BadRequestError } from '@sagittickets/common';
-import { User } from '../../models/user.model';
 import { getGoogleOauthToken, getGoogleUser } from '../../services/google.service';
+import { UserModel } from '../../models/user.model';
 
 
 export const googleSignin = async (req: Request, res: Response) => {
@@ -16,7 +16,7 @@ export const googleSignin = async (req: Request, res: Response) => {
             id_token,
             access_token
         });
-        const existingUser = await User.findAndCreate(
+        const existingUser = await UserModel.findAndCreate(
             {
                 googleId: id
             }, 

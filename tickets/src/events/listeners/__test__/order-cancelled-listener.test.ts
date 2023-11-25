@@ -3,7 +3,7 @@ import { OrderCancelledListener } from '../order-cancelled-listener';
 import { natsWrapper } from '../../../nats-wrapper';
 import { Message } from 'node-nats-streaming';
 import mongoose from 'mongoose';
-import { Ticket } from '../../../models/ticket';
+import { Ticket } from '../../../models/ticket.model';
 
 const setup = async () => {
     const listener = new OrderCancelledListener(natsWrapper.client);

@@ -36,5 +36,5 @@ export const newPayment = async (req: Request, res: Response) => {
         orderId: newPayment.orderId,
         stripeId: newPayment.stripeId
     })
-    res.status(201).send({id: newPayment.id});
+    res.status(201).send({paymentId: newPayment.id});
 }

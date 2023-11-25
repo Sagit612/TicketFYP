@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { app } from '../../app';
-import { Ticket } from '../../models/ticket';
+import { Ticket } from '../../models/ticket.model';
 import mongoose from 'mongoose';
 
 it('fetches the order', async () => {

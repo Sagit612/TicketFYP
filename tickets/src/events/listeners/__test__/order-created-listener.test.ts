@@ -3,7 +3,7 @@ import { Message } from "node-nats-streaming";
 import { OrderCreatedEvent, OrderStatus } from "@sagittickets/common";
 import { OrderCreatedListener } from "../order-created-listener";
 import mongoose from "mongoose";
-import { Ticket } from "../../../models/ticket";
+import { Ticket } from "../../../models/ticket.model";
 
 const setup = async () => {
     const listener = new OrderCreatedListener(natsWrapper.client);

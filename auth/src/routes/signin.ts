@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import { validateRequest, BadRequestError } from '@sagittickets/common';
-import { User } from '../models/user.model';
+import { User } from '../models/mongooseuser.model';
 import { Password } from '../services/password.service';
 import { signin } from '../controllers/signin/signin.controller';
 

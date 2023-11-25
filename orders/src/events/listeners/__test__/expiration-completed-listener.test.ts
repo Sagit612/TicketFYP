@@ -1,7 +1,7 @@
 import { ExpirationCompletedListener } from "../expiration-completed-listener";
 import { natsWrapper } from "../../../nats-wrapper";
-import { Order } from "../../../models/order";
-import { Ticket } from "../../../models/ticket";
+import { Order } from "../../../models/order.model";
+import { Ticket } from "../../../models/ticket.model";
 import mongoose from "mongoose";
 import { Message } from "node-nats-streaming";
 import { ExpirationCompletedEvent, OrderStatus } from "@sagittickets/common";

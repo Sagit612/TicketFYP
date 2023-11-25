@@ -3,7 +3,7 @@ import { natsWrapper } from "../../../nats-wrapper";
 import { TicketCreatedListener } from "../ticket-created-listener";
 import { TicketCreatedEvent } from "@sagittickets/common";
 import { Message } from "node-nats-streaming";
-import { Ticket } from "../../../models/ticket";
+import { Ticket } from "../../../models/ticket.model";
 
 const setup = async () => {
     // create an instance of the listener

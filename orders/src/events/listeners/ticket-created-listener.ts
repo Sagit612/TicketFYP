@@ -1,7 +1,7 @@
 import { Message } from "node-nats-streaming";
 import { Subjects, Listener, TicketCreatedEvent } from "@sagittickets/common";
 import { queueGroupName } from "./queue-group-name";
-import { Ticket } from "../../models/ticket";
+import { Ticket } from "../../models/ticket.model";
 
 export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
     subject: Subjects.TicketCreated = Subjects.TicketCreated;

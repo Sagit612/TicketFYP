@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 import express, { Request, Response } from 'express';
 import { BadRequestError, NotFoundError, OrderStatus, requireAuth, validateRequest } from '@sagittickets/common';
 import { body } from 'express-validator';
-import { Ticket } from '../../models/ticket';
-import { Order } from '../../models/order';
+import { Ticket } from '../../models/ticket.model';
+import { Order } from '../../models/order.model';
 import { OrderCreatedPublisher } from '../../events/publishers/order-created-publisher';
 import { natsWrapper } from '../../nats-wrapper';
 

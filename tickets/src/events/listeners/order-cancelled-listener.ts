@@ -1,7 +1,8 @@
 import { Listener, OrderCancelledEvent, OrderStatus, Subjects } from "@sagittickets/common";
 import { Message } from "node-nats-streaming";
 import { queueGroupName } from "./queue-group-name";
-import { Ticket } from "../../models/ticket";
+import { Ticket } from "../../models/ticket.model";
+
 import { TicketUpdatedPublisher } from "../publishers/ticket-updated-publisher";
 import { natsWrapper } from "../../nats-wrapper";
 

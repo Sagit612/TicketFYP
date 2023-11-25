@@ -1,7 +1,7 @@
 import { Listener, Subjects,OrderStatus, PaymentCreatedEvent } from "@sagittickets/common";
 import { Message } from "node-nats-streaming";
 import { queueGroupName } from "./queue-group-name";
-import { Order } from "../../models/order";
+import { Order } from "../../models/order.model";
 
 class PaymentCreatedListener extends Listener<PaymentCreatedEvent> {
     subject: Subjects.PaymentCreated = Subjects.PaymentCreated;

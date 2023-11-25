@@ -1,12 +1,11 @@
 import express, { Request, Response } from 'express';
-import { body, validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
-import { validateRequest, BadRequestError } from '@sagittickets/common';
-import { User } from '../../models/user.model';
+import { BadRequestError } from '@sagittickets/common';
+import { UserModel } from '../../models/user.model';
 import { Password } from '../../services/password.service';
 export const signin = async (req: Request, res: Response) => {
     const { email, password } = req.body;
-    const existingUser = await User.findOne({ email });
+    const existingUser = await UserModel.findOne({ email });
     if (!existingUser) {
         throw new BadRequestError('Invalid credentials');
     }

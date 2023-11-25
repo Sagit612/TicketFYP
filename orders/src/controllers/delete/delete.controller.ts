@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { Order, OrderStatus } from '../../models/order';
+import { Order, OrderStatus } from '../../models/order.model';
 import { NotAuthorizedError, NotFoundError, requireAuth } from '@sagittickets/common';
 import { OrderCancelledPublisher } from '../../events/publishers/order-cancelled-publisher';
 import { natsWrapper } from '../../nats-wrapper';
