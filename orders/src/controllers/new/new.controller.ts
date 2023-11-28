@@ -1,17 +1,14 @@
-import mongoose from 'mongoose';
 import express, { Request, Response } from 'express';
-import { BadRequestError, NotFoundError, OrderStatus, requireAuth, validateRequest } from '@sagittickets/common';
-import { body } from 'express-validator';
-import { Ticket } from '../../models/ticket.model';
-import { Order } from '../../models/order.model';
+import { BadRequestError, NotFoundError, OrderStatus} from '@sagittickets/common';
 import { OrderCreatedPublisher } from '../../events/publishers/order-created-publisher';
+import { TicketModel, OrderModel } from '../../models/central';
 import { natsWrapper } from '../../nats-wrapper';
 
 const WINDOW_SECONDS_FOR_EXPIRATION = 60;
 
 export const newOrder = async (req: Request, res: Response) => {
     const { ticketId } = req.body 
-    const availableTicket = await Ticket.findById(ticketId);
+    const availableTicket = await TicketModel.findById(ticketId);
     if (!availableTicket) {
         throw new NotFoundError();
     }
@@ -21,7 +18,7 @@ export const newOrder = async (req: Request, res: Response) => {
     }
     const expiration = new Date();
     expiration.setSeconds(expiration.getSeconds() + WINDOW_SECONDS_FOR_EXPIRATION)
-    const newOrder = Order.createOrder({
+    const newOrder = OrderModel.createOrder({
         userId: req.currentUser!.id,
         status: OrderStatus.Created,
         expiresAt: expiration,
@@ -31,7 +28,7 @@ export const newOrder = async (req: Request, res: Response) => {
     new OrderCreatedPublisher(natsWrapper.client).publish({
         id: newOrder.id,
         version: newOrder.version,
-        status: newOrder.status,
+        status: newOrder.status as OrderStatus,
         userId: newOrder.userId,
         expiresAt: newOrder.expiresAt.toISOString(),
         ticket: {

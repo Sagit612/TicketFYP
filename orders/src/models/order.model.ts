@@ -1,9 +1,11 @@
-import mongoose from "mongoose";
-import { TicketDoc } from "./ticket.model";
-import { OrderStatus } from "@sagittickets/common";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
-// import { updateIfCurrentPlugin } from "mongoose-update-if-current";
-export { OrderStatus }
+import { prop, getModelForClass, ReturnModelType, plugin, Ref } from "@typegoose/typegoose";
+import mongoose from "mongoose";
+import { OrderStatus } from "@sagittickets/common";
+import { TicketDoc, TicketClass } from "./ticket.model";
+import { OrderModel, TicketModel } from "./central";
+import { Order } from "./mongooseorder.model";
+
 
 interface OrderAttrs {
     userId: string;
@@ -20,44 +22,30 @@ interface OrderDoc extends mongoose.Document {
     version: number;
 }
 
-interface OrderModel extends mongoose.Model<OrderDoc> {
-    createOrder(attrs: OrderAttrs): OrderDoc;
+export { OrderStatus }
+
+
+@plugin(updateIfCurrentPlugin)
+
+export class OrderClass {
+    @prop({ required: true })
+    userId!: string
+
+    @prop({ required: true, enum: Object.values(OrderStatus), default: OrderStatus.Created })
+    status!: string;
+
+    @prop()
+    expiresAt!: Date
+
+    @prop({ default: 0, version: true })
+    version!: number;
+
+    @prop({ref: () => TicketClass})
+    ticket!: Ref<TicketClass>
+
+    public static createOrder (attrs: OrderAttrs) {
+        return new OrderModel(attrs);
+    }
 }
 
-const orderSchema = new mongoose.Schema({
-    userId: {
-        type: String,
-        required: true,
-    },
-    status: {
-        type: String,
-        required: true,
-        enum: Object.values(OrderStatus),
-        default: OrderStatus.Created
-    },
-    expiresAt: {
-        type: mongoose.Schema.Types.Date,
-    },
-    ticket: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Ticket'
-    }
-}, {
-    toJSON: {
-        transform(doc, ret) {
-            ret.id = ret._id;
-            delete ret._id;
-        }
-    }
-});
 
-orderSchema.set('versionKey', 'version');
-orderSchema.plugin(updateIfCurrentPlugin);
-
-orderSchema.statics.createOrder = (attrs: OrderAttrs) => {
-    return new Order(attrs);
-}
-
-const Order = mongoose.model<OrderDoc, OrderModel>('Order', orderSchema);
-
-export { Order }

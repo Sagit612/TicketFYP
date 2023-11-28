@@ -1,11 +1,12 @@
 import express, { Request, Response } from 'express';
-import { Order, OrderStatus } from '../../models/order.model';
-import { NotAuthorizedError, NotFoundError, requireAuth } from '@sagittickets/common';
+import { OrderStatus } from '../../models/mongooseorder.model';
+import { NotAuthorizedError, NotFoundError} from '@sagittickets/common';
 import { OrderCancelledPublisher } from '../../events/publishers/order-cancelled-publisher';
 import { natsWrapper } from '../../nats-wrapper';
+import { OrderModel } from '../../models/central';
 
 export const deleteTicket = async (req: Request, res: Response) => {
-    const existingOrder = await Order.findById(req.params.orderId).populate('ticket');
+    const existingOrder = await OrderModel.findById(req.params.orderId).populate('ticket');
     if (!existingOrder) {
         throw new NotFoundError();
     }

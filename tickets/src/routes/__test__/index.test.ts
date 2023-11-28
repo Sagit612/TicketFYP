@@ -9,7 +9,7 @@ const createTicket = () => {
         .send({
             title: 'asdfad',
             price: 20,
-            photo: photo
+            // photo: photo
         });
 }
 

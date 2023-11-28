@@ -3,11 +3,11 @@ import { Message } from "node-nats-streaming";
 import { OrderCancelledEvent, OrderStatus } from "@sagittickets/common";
 import { OrderCancelledListener } from "../order-cancelled-listener";
 import mongoose from "mongoose";
-import { Order } from "../../../models/order";
+import { OrderModel } from "../../../models/order.model";
 
 const setup = async() => {
     const listener = new OrderCancelledListener(natsWrapper.client);
-    const newOrder = Order.build({
+    const newOrder = OrderModel.createOrder({
         id: new mongoose.Types.ObjectId().toHexString(),
         version: 0,
         status: OrderStatus.Created,
@@ -34,7 +34,7 @@ const setup = async() => {
 it('updates the status of the order', async () => {
     const { listener, msg, data, newOrder} = await setup();
     await listener.onMessage(data, msg); // create new order in payment service
-    const updatedOrder = await Order.findById(newOrder.id); // find the order in payment service
+    const updatedOrder = await OrderModel.findById(newOrder.id); // find the order in payment service
     expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled); // compare data
 });
 

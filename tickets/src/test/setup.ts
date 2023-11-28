@@ -12,6 +12,7 @@ jest.mock('../nats-wrapper.ts');
 
 let mongo: any;
 beforeAll(async () => {
+    // jest.useFakeTimers({ legacyFakeTimers: true })
     process.env.JWT_KEY = 'asdfasdf'
     mongo = await MongoMemoryServer.create();
     const mongoUri = mongo.getUri();

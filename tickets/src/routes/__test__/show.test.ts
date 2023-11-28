@@ -24,7 +24,7 @@ it('returns the ticket if the ticket is found', async () => {
         .send({
             title: 'concert',
             price: 20,
-            photo
+            // photo
         })
         .expect(201);
 

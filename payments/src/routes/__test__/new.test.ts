@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 import { app } from "../../app";
 import request from 'supertest';
-import { Order } from "../../models/order";
 import { OrderStatus } from "@sagittickets/common";
 import { stripe } from "../../stripe";
-import { Payment } from "../../models/payment";
+import { PaymentModel } from "../../models/payment.model";
+import { OrderModel } from "../../models/order.model";
 
 it('return 404 error when order does not exist to pay', async () => {
     await request(app)
@@ -18,7 +18,7 @@ it('return 404 error when order does not exist to pay', async () => {
 })
 
 it('return 401 error when order does not belong to the current user', async () => {
-    const newOrder = Order.build({
+    const newOrder = OrderModel.createOrder({
         id: new mongoose.Types.ObjectId().toHexString(),
         version: 0,
         status: OrderStatus.Created,
@@ -38,7 +38,7 @@ it('return 401 error when order does not belong to the current user', async () =
 })
 it('return 400 error when order status is cancelled', async () => {
     const userId = new mongoose.Types.ObjectId().toHexString();
-    const newOrder = Order.build({
+    const newOrder = OrderModel.createOrder({
         id: new mongoose.Types.ObjectId().toHexString(),
         version: 0,
         status: OrderStatus.Cancelled,
@@ -60,7 +60,7 @@ it('return 400 error when order status is cancelled', async () => {
 it('return 204 with valid data inputs', async() => {
     const userId = new mongoose.Types.ObjectId().toHexString();
     const price = Math.floor(Math.random() * 10000);
-    const newOrder = Order.build({
+    const newOrder = OrderModel.createOrder({
         id: new mongoose.Types.ObjectId().toHexString(),
         version: 0,
         status: OrderStatus.Created,
@@ -83,7 +83,7 @@ it('return 204 with valid data inputs', async() => {
     expect(stripeCharge).toBeDefined();
     expect(stripeCharge?.currency).toEqual('usd');
 
-    const payment = await Payment.findOne({
+    const payment = await PaymentModel.findOne({
         orderId: newOrder.id,
         stripeId: stripeCharge?.id
     })

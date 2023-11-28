@@ -2,15 +2,17 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { requireAuth, validateRequest, BadRequestError, NotFoundError, NotAuthorizedError, OrderStatus } from '@sagittickets/common';
 import { Order } from '../../models/order';
+import { OrderModel } from '../../models/order.model';
 import { stripe } from '../../stripe';
 import { Payment } from '../../models/payment';
+import { PaymentModel } from '../../models/payment.model';
 import { PaymentCreatedPublisher } from '../../events/publishers/payment-created-publisher';
 import { natsWrapper } from '../../nats-wrapper';
 
 
 export const newPayment = async (req: Request, res: Response) => {
     const { token, orderId } = req.body;
-    const existingOrder = await Order.findById(orderId);
+    const existingOrder = await OrderModel.findById(orderId);
     if(!existingOrder) {
         throw new NotFoundError();
     }
@@ -26,7 +28,7 @@ export const newPayment = async (req: Request, res: Response) => {
         amount: existingOrder.price * 100,
         source: token
     })
-    const newPayment = Payment.build({
+    const newPayment = PaymentModel.createPayment({
         orderId,
         stripeId: newCharge.id
     })

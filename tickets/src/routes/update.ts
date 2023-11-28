@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import { body } from 'express-validator';
 import {
     validateRequest,

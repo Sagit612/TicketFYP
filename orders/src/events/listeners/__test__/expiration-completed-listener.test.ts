@@ -1,7 +1,6 @@
 import { ExpirationCompletedListener } from "../expiration-completed-listener";
 import { natsWrapper } from "../../../nats-wrapper";
-import { Order } from "../../../models/order.model";
-import { Ticket } from "../../../models/ticket.model";
+import { TicketModel, OrderModel } from '../../../models/central';
 import mongoose from "mongoose";
 import { Message } from "node-nats-streaming";
 import { ExpirationCompletedEvent, OrderStatus } from "@sagittickets/common";
@@ -11,7 +10,7 @@ const setup = async () => {
     // create an instance of the listener
     const listener = new ExpirationCompletedListener(natsWrapper.client);
 
-    const newTicket = Ticket.createTicket({
+    const newTicket = TicketModel.createTicket({
         id: new mongoose.Types.ObjectId().toHexString(),
         title: "new ticket",
         price: 20,
@@ -20,7 +19,7 @@ const setup = async () => {
     })
     await newTicket.save();
 
-    const newOrder = Order.createOrder({
+    const newOrder = OrderModel.createOrder({
         userId: 'anyid',
         status: OrderStatus.Created,
         expiresAt: new Date(),
@@ -43,7 +42,7 @@ const setup = async () => {
 it('updates the order status to cancelled', async () => {
     const {listener, data, msg, newOrder, newTicket} = await setup();
     await listener.onMessage(data, msg);
-    const updatedOrder = await Order.findById(newOrder.id);
+    const updatedOrder = await OrderModel.findById(newOrder.id);
     expect(updatedOrder).toBeDefined();
     expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
 });

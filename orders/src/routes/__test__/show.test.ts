@@ -1,11 +1,11 @@
 import request from 'supertest';
 import { app } from '../../app';
-import { Ticket } from '../../models/ticket.model';
+import { TicketModel, } from '../../models/central';
 import mongoose from 'mongoose';
 
 it('fetches the order', async () => {
   // Create a ticket
-  const ticket = Ticket.createTicket({
+  const ticket = TicketModel.createTicket({
     id: new mongoose.Types.ObjectId().toHexString(),
     title: 'concert',
     price: 20,
@@ -33,7 +33,7 @@ it('fetches the order', async () => {
 
 it('returns an error if one user tries to fetch another users order', async () => {
   // Create a ticket
-  const ticket = Ticket.createTicket({
+  const ticket = TicketModel.createTicket({
     id: new mongoose.Types.ObjectId().toHexString(),
     title: 'concert',
     price: 20,

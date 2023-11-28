@@ -3,11 +3,12 @@ import { Message } from "node-nats-streaming";
 import { OrderCreatedEvent, OrderStatus } from "@sagittickets/common";
 import { OrderCreatedListener } from "../order-created-listener";
 import mongoose from "mongoose";
-import { Ticket } from "../../../models/ticket.model";
+import { Ticket } from "../../../models/mongooseticket.model";
+import { TicketModel } from "../../../models/ticket.model";
 
 const setup = async () => {
     const listener = new OrderCreatedListener(natsWrapper.client);
-    const ticket  = Ticket.createTicket({
+    const ticket  = TicketModel.createTicket({
         title: 'newTicket',
         price: 99,
         photo_id: "655263447ee155a01028104d",
@@ -37,7 +38,7 @@ const setup = async () => {
 it('sets userId for the ticket', async () => {
     const { listener, data, ticket, message } = await setup();
     await listener.onMessage(data, message);
-    const updatedTicket = await Ticket.findById(ticket.id);
+    const updatedTicket = await TicketModel.findById(ticket.id);
     expect(updatedTicket!.orderId).toEqual(data.id);
 })
 

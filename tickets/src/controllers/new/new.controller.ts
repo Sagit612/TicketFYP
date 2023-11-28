@@ -1,8 +1,5 @@
 import express, { Request, Response } from 'express';
-import { body } from 'express-validator';
-import { requireAuth, validateRequest } from '@sagittickets/common';
-import { Ticket } from '../../models/ticket.model';
-
+import { TicketModel } from '../../models/ticket.model';
 import { TicketCreatedPublisher } from '../../events/publishers/ticket-created-publisher';
 import { natsWrapper } from '../../nats-wrapper';
 import { uploadToCloudinary } from '../../services/cloudinary.service';
@@ -10,8 +7,8 @@ import { uploadToCloudinary } from '../../services/cloudinary.service';
 
 export const newTicket = async (req: Request, res: Response) => {
     const { title, price, photo } = req.body;
-    const { public_id, secure_url} = await uploadToCloudinary(photo);
-    const ticket = Ticket.createTicket({
+    const { public_id, secure_url } = await uploadToCloudinary(photo);
+    const ticket = TicketModel.createTicket({
         title,
         price,
         photo_id: public_id,

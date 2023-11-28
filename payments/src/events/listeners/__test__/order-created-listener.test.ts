@@ -3,7 +3,7 @@ import { Message } from "node-nats-streaming";
 import { OrderCreatedEvent, OrderStatus } from "@sagittickets/common";
 import { OrderCreatedListener } from "../order-created-listener";
 import mongoose from "mongoose";
-import { Order } from "../../../models/order";
+import { OrderModel } from "../../../models/order.model";
 
 
 const setup = async () => {
@@ -36,6 +36,6 @@ it('acks the message from Order service', async () => {
 it('replicate the order information', async() => {
     const { listener, data, message } = await setup();
     await listener.onMessage(data, message);
-    const order = await Order.findById(data.id);
+    const order = await OrderModel.findById(data.id);
     expect(order!.price).toEqual(data.ticket.price);
 })

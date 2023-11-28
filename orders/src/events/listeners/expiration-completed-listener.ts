@@ -1,7 +1,7 @@
 import { ExpirationCompletedEvent, Listener, Subjects, OrderStatus } from "@sagittickets/common";
 import { queueGroupName } from "./queue-group-name";
 import { Message } from "node-nats-streaming";
-import { Order } from "../../models/order.model";
+import {OrderModel } from '../../models/central';
 import { OrderCancelledPublisher } from "../publishers/order-cancelled-publisher";
 import { natsWrapper } from "../../nats-wrapper";
 
@@ -9,7 +9,7 @@ class ExpirationCompletedListener extends Listener<ExpirationCompletedEvent> {
     subject: Subjects.ExpirationCompleted = Subjects.ExpirationCompleted;
     queueGroupName: string = queueGroupName;
     async onMessage(data: ExpirationCompletedEvent['data'], msg: Message){
-        const existingOrder = await Order.findById(data.orderId).populate('ticket');
+        const existingOrder = await OrderModel.findById(data.orderId).populate('ticket');
         if (!existingOrder) {
             throw new Error('Not found order');
         }

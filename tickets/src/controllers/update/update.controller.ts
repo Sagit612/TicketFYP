@@ -6,12 +6,11 @@ import {
 } from '@sagittickets/common';
 import { TicketUpdatedPublisher } from '../../events/publishers/ticket-updated-publisher';
 import { natsWrapper } from '../../nats-wrapper';
-import { Ticket } from '../../models/ticket.model';
-
+import { TicketModel } from '../../models/ticket.model';
 import { uploadToCloudinary } from '../../services/cloudinary.service';
 
 export const update = async (req: Request, res: Response) => {
-    const ticket = await Ticket.findById(req.params.id);
+    const ticket = await TicketModel.findById(req.params.id);
 
     if(!ticket){
         throw new NotFoundError();

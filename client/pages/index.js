@@ -15,14 +15,14 @@ const LandingPage = ({ currentUser, tickets }) => {
                         View
                     </Link>
                     </button> 
-                    {currentUser.id !== ticket.userId ? null : 
-                        <button className="btn btn-warning">
-                        <Link href='/tickets/edit/[ticketId]' as={`/tickets/edit/${ticket.id}`} className="nav-link">
-                            Edit
-                        </Link>
-                        </button>  
+                    {
+                        currentUser !== null ? (currentUser.id !== ticket.userId ? null : 
+                            <button className="btn btn-warning">
+                            <Link href='/tickets/edit/[ticketId]' as={`/tickets/edit/${ticket.id}`} className="nav-link">
+                                Edit
+                            </Link>
+                            </button>  ) : null
                     }
-
                 </td>
 
             </tr>

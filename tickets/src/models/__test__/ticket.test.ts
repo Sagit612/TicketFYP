@@ -1,10 +1,11 @@
-import { Ticket } from "../ticket.model";
+import { Ticket } from "../mongooseticket.model";
+import { TicketModel } from "../ticket.model";
 
 // https://www.mongodb.com/community/forums/t/mongoose-version-error-no-matching-document-found-for-id/134781/2
 
 it('implements optimistic concurrency', async () => {
     // Create an instance of a ticket
-    const ticket  = Ticket.createTicket({
+    const ticket  = TicketModel.createTicket({
         title: 'concert',
         price: 5,
         userId: '123'
@@ -12,8 +13,8 @@ it('implements optimistic concurrency', async () => {
     // Save the ticket to the database
     await ticket.save();
     // fetch the ticket twice
-    const firstInstance = await Ticket.findById(ticket.id);
-    const secondInstance = await Ticket.findById(ticket.id);
+    const firstInstance = await TicketModel.findById(ticket.id);
+    const secondInstance = await TicketModel.findById(ticket.id);
     // make two separate changes to the tickets we fetched  
     firstInstance!.set({price: 10});
     secondInstance!.set({price: 15});
@@ -30,7 +31,7 @@ it('implements optimistic concurrency', async () => {
 });
 
 it('increments the version number on multiple saves', async () => {
-    const ticket = Ticket.createTicket({
+    const ticket = TicketModel.createTicket({
         title: 'concert',
         price: 20,
         userId: '123'

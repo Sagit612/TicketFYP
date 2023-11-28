@@ -1,7 +1,9 @@
-import mongoose, { version } from "mongoose";
+import { prop, getModelForClass, ReturnModelType, plugin } from "@typegoose/typegoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
-import { Order, OrderStatus } from "./order.model";
-import { idText } from "typescript";
+// import { Order, OrderStatus } from "./order.model";
+import {OrderStatus } from "./order.model";
+import { TicketModel, OrderModel } from "./central";
+import mongoose from "mongoose";
 
 interface TicketAttrs {
     id: string;
@@ -20,68 +22,59 @@ export interface TicketDoc extends mongoose.Document {
     isReserved(): Promise<Boolean>
 }
 
-interface TicketModel extends mongoose.Model<TicketDoc> {
-    createTicket(attrs: TicketAttrs): TicketDoc;
-    findByEvent(event: { id: string, version: number}): Promise<TicketDoc | null>;
-}
+@plugin(updateIfCurrentPlugin)
 
-const ticketSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    price: {
-        type: Number,
-        required: true,
-        min: 0
-    },
-    photo_id: {
-        type: String
-    },
-    photo_url: {
-        type: String,
-    },
-}, {
-    toJSON: {
-        transform(doc, ret) {
-            ret.id = ret._id;
-            delete ret._id;
-        }
+export class TicketClass {
+    @prop({ required: true })
+    title!: string;
+
+    @prop({ required: true, min: 0})
+    price!: number;
+
+    @prop({required: false})
+    photo_id!: string;
+
+    @prop({required: false})
+    photo_url!: string;
+
+    @prop({ default: 0, version: true })
+    version!: number;
+
+    public static createTicket(this: ReturnModelType<typeof TicketClass>, attrs: TicketAttrs) {
+        return new TicketModel(
+            {
+                _id: attrs.id,
+                title: attrs.title,
+                price: attrs.price,
+                photo_id: attrs.photo_id,
+                photo_url: attrs.photo_url
+            }
+        );
     }
-});
+    public static findByEvent(this: ReturnModelType<typeof TicketClass>, event: { id: string, version: number }) {
+        return this.findOne({
+            _id: event.id,
+            version: event.version - 1
+        })
+    }
 
-ticketSchema.set('versionKey', 'version');
-ticketSchema.plugin(updateIfCurrentPlugin);
-
-ticketSchema.statics.createTicket = (attrs: TicketAttrs) => {
-    return new Ticket({
-        _id: attrs.id,
-        title: attrs.title,
-        price: attrs.price,
-        photo_id: attrs.photo_id,
-        photo_url: attrs.photo_url
-    });
-}
-ticketSchema.statics.findByEvent = (event: { id: string, version: number }) => {
-    return Ticket.findOne({
-        _id: event.id,
-        version: event.version - 1
-    })
-}
-ticketSchema.methods.isReserved = async function () {
-    const existingOrder = await Order.findOne({
-        ticket: this, 
-        status: {
-            $in: [
-                OrderStatus.Created,
-                OrderStatus.AwaitingPayment,
-                OrderStatus.Complete
-            ]
-        }
-    });
-    return !!existingOrder;
+    public async isReserved() {
+        const existingOrder = await OrderModel.findOne({
+            ticket: this, 
+            status: {
+                $in: [
+                    OrderStatus.Created,
+                    OrderStatus.AwaitingPayment,
+                    OrderStatus.Complete
+                ]
+            }
+        });
+        return !!existingOrder;
+    }
 }
 
-const Ticket = mongoose.model<TicketDoc, TicketModel>('Ticket', ticketSchema);
 
-export { Ticket };
+
+
+
+

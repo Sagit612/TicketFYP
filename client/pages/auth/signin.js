@@ -28,20 +28,6 @@ export default () => {
 
     return (
         <div>
-            {/* <form onSubmit={onSubmit}>
-                <h1>Sign in</h1>
-                <div className="form-group">
-                    <label>Email Address</label>
-                    <input value={email} onChange={e => setEmail(e.target.value)} className="form-control"/>
-                </div>
-                <div className="form-group">
-                    <label>Password</label>
-                    <input value={password} onChange={e => setPassword(e.target.value)} type="password" className="form-control"/>
-                </div>
-                {errors}
-                <button className="btn btn-primary">Sign In</button>
-            </form>
-             */}
             <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label for="exampleInputEmail1">Email address</label>

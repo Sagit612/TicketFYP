@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import { prop, getModelForClass, ReturnModelType, plugin } from "@typegoose/typegoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 interface TicketAttrs {
@@ -8,60 +8,49 @@ interface TicketAttrs {
     photo_url?: string;
     userId: string;
 }
+@plugin(updateIfCurrentPlugin)
 
-interface TicketDoc extends mongoose.Document {
-    title: string;
-    price: number;
-    photo_id: string;
-    photo_url: string;
-    userId: string;
-    version: number;
+class TicketClass {
+    @prop({ required: true })
+    title!: string;
+
+    @prop({ required: true })
+    price!: number;
+
+    @prop({required: false})
+    photo_id!: string;
+
+    @prop({required: false})
+    photo_url!: string;
+
+    @prop({ required: true })
+    userId!: string;
+
+    @prop()
     orderId?: string;
+
+    @prop({ default: 0, version: true })
+    version!: number;
+
+    public static createTicket(this: ReturnModelType<typeof TicketClass>, attrs: TicketAttrs) {
+        return new TicketModel(attrs);
+    }
 }
 
-interface TicketModel extends mongoose.Model<TicketDoc> {
-    createTicket(attrs: TicketAttrs): TicketDoc;
-}
 
-const ticketSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true
+
+const TicketModel = getModelForClass(TicketClass, {
+    schemaOptions: {
+        toJSON: {
+            transform(doc, ret) {
+                ret.id = ret._id;
+                delete ret._id;
+            },
+        },
+        versionKey: 'version'
     },
-    price: {
-        type: Number,
-        required: true
-    },
-    photo_id: {
-        type: String
-    },
-    photo_url: {
-        type: String,
-    },
-    userId:{
-        type: String,
-        required: true
-    },
-    orderId: {
-        type: String
-    }
-}, {
-    toJSON: {
-        transform(doc, ret) {
-            ret.id = ret._id;
-            delete ret._id;
-        }
-    }
 });
 
-ticketSchema.set('versionKey', 'version');
-ticketSchema.plugin(updateIfCurrentPlugin);
+// TicketModel.schema.plugin(updateIfCurrentPlugin);
 
-ticketSchema.statics.createTicket = (attrs: TicketAttrs) => {
-    return new Ticket(attrs);
-}
-
-
-const Ticket = mongoose.model<TicketDoc, TicketModel>('Ticket', ticketSchema);
-
-export { Ticket };
+export { TicketModel };

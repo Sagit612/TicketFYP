@@ -3,7 +3,7 @@ import { natsWrapper } from "../../../nats-wrapper";
 import { TicketCreatedListener } from "../ticket-created-listener";
 import { TicketCreatedEvent } from "@sagittickets/common";
 import { Message } from "node-nats-streaming";
-import { Ticket } from "../../../models/ticket.model";
+import { TicketModel} from '../../../models/central';
 
 const setup = async () => {
     // create an instance of the listener
@@ -32,7 +32,7 @@ it('creates and saves a ticket', async () => {
     // call the onMessage function with the data object + message object
     await listener.onMessage(data, msg);
     // write assertions to make sure a ticket was created
-    const ticket = await Ticket.findById(data.id);
+    const ticket = await TicketModel.findById(data.id);
 
     expect(ticket).toBeDefined();
     expect(ticket!.title).toEqual(data.title);

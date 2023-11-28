@@ -1,17 +1,15 @@
 import { Listener, OrderCancelledEvent, OrderStatus, Subjects } from "@sagittickets/common";
 import { Message } from "node-nats-streaming";
 import { queueGroupName } from "./queue-group-name";
-import { Ticket } from "../../models/ticket.model";
-
+import { TicketModel } from "../../models/ticket.model";
 import { TicketUpdatedPublisher } from "../publishers/ticket-updated-publisher";
-import { natsWrapper } from "../../nats-wrapper";
 
 class OrderCancelledListener extends Listener<OrderCancelledEvent> {
     subject: Subjects.OrderCancelled = Subjects.OrderCancelled;
     queueGroupName: string = queueGroupName;
     async onMessage(data: OrderCancelledEvent['data'], msg: Message) {
         const { id, ticket } = data;
-        const existingTicket = await Ticket.findById(ticket.id);
+        const existingTicket = await TicketModel.findById(ticket.id);
         if(!existingTicket) {
             throw new Error('Not found ticket');
         }

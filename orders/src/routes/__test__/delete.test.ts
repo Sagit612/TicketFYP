@@ -1,13 +1,13 @@
 import request from 'supertest';
 import { app } from '../../app';
-import { Ticket } from '../../models/ticket.model';
-import { Order, OrderStatus } from '../../models/order.model';
+import { TicketModel, OrderModel } from '../../models/central';
+import { OrderStatus } from '../../models/order.model';
 import { natsWrapper } from '../../nats-wrapper';
 import mongoose from 'mongoose';
 
 it('marks an order as cancelled', async () => {
   // create a ticket with Ticket Model
-  const ticket = Ticket.createTicket({
+  const ticket = TicketModel.createTicket({
     id: new mongoose.Types.ObjectId().toHexString(),
     title: 'concert',
     price: 20,
@@ -32,14 +32,14 @@ it('marks an order as cancelled', async () => {
     .expect(204);
 
   // expectation to make sure the thing is cancelled
-  const updatedOrder = await Order.findById(order.id);
+  const updatedOrder = await OrderModel.findById(order.id);
 
   expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
 });
 
 it('emits a order cancelled event', async () => {
   // create a ticket with Ticket Model
-  const ticket = Ticket.createTicket({
+  const ticket = TicketModel.createTicket({
     id: new mongoose.Types.ObjectId().toHexString(),
     title: 'concert',
     price: 20,
