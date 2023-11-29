@@ -1,10 +1,9 @@
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
-import { prop, getModelForClass, ReturnModelType, plugin, Ref } from "@typegoose/typegoose";
+import { prop, plugin, Ref } from "@typegoose/typegoose";
 import mongoose from "mongoose";
 import { OrderStatus } from "@sagittickets/common";
 import { TicketDoc, TicketClass } from "./ticket.model";
-import { OrderModel, TicketModel } from "./central";
-import { Order } from "./mongooseorder.model";
+import { OrderModel } from "./central";
 
 
 interface OrderAttrs {

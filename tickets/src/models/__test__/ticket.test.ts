@@ -1,4 +1,3 @@
-import { Ticket } from "../mongooseticket.model";
 import { TicketModel } from "../ticket.model";
 
 // https://www.mongodb.com/community/forums/t/mongoose-version-error-no-matching-document-found-for-id/134781/2

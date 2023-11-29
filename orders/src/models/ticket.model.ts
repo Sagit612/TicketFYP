@@ -1,7 +1,6 @@
-import { prop, getModelForClass, ReturnModelType, plugin } from "@typegoose/typegoose";
+import { prop, ReturnModelType, plugin } from "@typegoose/typegoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
-// import { Order, OrderStatus } from "./order.model";
-import {OrderStatus } from "./order.model";
+import { OrderStatus } from "./order.model";
 import { TicketModel, OrderModel } from "./central";
 import mongoose from "mongoose";
 

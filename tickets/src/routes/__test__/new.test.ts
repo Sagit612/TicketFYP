@@ -14,7 +14,7 @@ it('has a route handler listening to /api/tickets for post requests',async () =>
     expect(response.status).not.toEqual(404);
 });
 
-it('can only be accessed if the user is signed in',async () => {
+it('returns 404 error, can only be accessed if the user is signed in',async () => {
     const response = await request(app)
         .post('/api/tickets')
         .send({});
@@ -32,7 +32,7 @@ it('returns a status other than 401 if the user is signed in',async () => {
     expect(response.status).not.toEqual(401);
 });
 
-it('returns an error if an invalid title is provided',async () => {
+it('returns an 400 error if an invalid title is provided',async () => {
     await request(app)
         .post('/api/tickets')
         .set('Cookie', global.signin())
@@ -44,7 +44,7 @@ it('returns an error if an invalid title is provided',async () => {
         .expect(400);
 });
 
-it('returns an error if an invalid price is provided',async () => {
+it('returns an 400 error if an invalid price is provided',async () => {
     await request(app)
     .post('/api/tickets')
     .set('Cookie', global.signin())
@@ -63,7 +63,7 @@ it('returns an error if an invalid price is provided',async () => {
     .expect(400);
 });
 
-it('creates a ticket with valid input',async () => {
+it('return 201, creates a ticket with valid input',async () => {
     let tickets = await TicketModel.find({})
     expect(tickets.length).toEqual(0);
     const title = 'asdf'

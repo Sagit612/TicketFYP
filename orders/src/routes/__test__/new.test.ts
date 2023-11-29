@@ -5,7 +5,7 @@ import { OrderStatus } from '../../models/order.model';
 import { TicketModel, OrderModel } from '../../models/central';
 import { natsWrapper } from '../../nats-wrapper';
 
-it('returns an error if the ticket does not exist', async () => {
+it('returns 404 an error if the ticket does not exist', async () => {
     const ticketId = new mongoose.Types.ObjectId();
     await request(app)
         .post('/api/orders')
@@ -41,7 +41,7 @@ it('returns an error if the ticket is already reserved', async () => {
         .expect(400)
 });
 
-it('reserves a ticket', async () => {
+it('return 200, reserves a ticket', async () => {
     const ticket = TicketModel.createTicket({
         id: new mongoose.Types.ObjectId().toHexString(),
         title: 'concert',

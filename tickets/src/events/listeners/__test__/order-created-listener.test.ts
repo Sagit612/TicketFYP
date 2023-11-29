@@ -3,7 +3,6 @@ import { Message } from "node-nats-streaming";
 import { OrderCreatedEvent, OrderStatus } from "@sagittickets/common";
 import { OrderCreatedListener } from "../order-created-listener";
 import mongoose from "mongoose";
-import { Ticket } from "../../../models/mongooseticket.model";
 import { TicketModel } from "../../../models/ticket.model";
 
 const setup = async () => {
@@ -35,7 +34,7 @@ const setup = async () => {
     return { listener, data, ticket, message};
 }
 
-it('sets userId for the ticket', async () => {
+it('sets orderId for the ticket', async () => {
     const { listener, data, ticket, message } = await setup();
     await listener.onMessage(data, message);
     const updatedTicket = await TicketModel.findById(ticket.id);

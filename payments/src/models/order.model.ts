@@ -19,7 +19,6 @@ interface OrderDocument extends mongoose.Document {
     price: number;
 }
 
-
 @plugin(updateIfCurrentPlugin)
 
 export class OrderClass {
